@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:yorumlaa/pages/productPage.dart';
-import 'package:yorumlaa/pages/subCat.dart';
-class mCategory extends StatelessWidget{
+
+
+
+class mCategory extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => _mCategoryState();
+}
+List<String> categories =["Elektronik","Moda"];
+List<List<String>> subCategories =[["Telefon","PC"],["AYAKKABI","SAAT"]];
+
+class _mCategoryState extends State<mCategory>{
+  static List<bool> activeCat= List.filled(categories.length, false); 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+    child:Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -30,290 +41,43 @@ class mCategory extends StatelessWidget{
           )
         ],
       ),
-
-      body:  Center(
-          child: ListView(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.only(top: 10),),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-               GestureDetector(
-                 onTap: (){
-                   Navigator.push(context,  MaterialPageRoute(builder: (context) => subCat()),);
-                 },
-                 child:    SizedBox(
-                   height: 160,
-                   width: 160,
-                   child: Card(
-                     shape: RoundedRectangleBorder(
-                         borderRadius: BorderRadius.circular(12)),
-                     elevation: 20,
-                     child: Column(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       crossAxisAlignment: CrossAxisAlignment.center,
-                       children: <Widget>[
-                         Icon(
-                           Icons.phone_android,
-                           size: 50,
-                         ),
-                         Padding(
-                           padding: EdgeInsets.only(top: 10),
-                         ),
-                         Text("Elektronik")
-                       ],
-                     ),
-                   ),
-                 ),
-               ),
-               GestureDetector(
-                 onTap: (){
-                  Navigator.push(context,  MaterialPageRoute(builder: (context) =>productPage()),);
-                 },
-                 child:    Container(
-
-                   height: 160,
-                   width: 160,
-                   child: Card(
-
-                     shape: RoundedRectangleBorder(
-                         borderRadius: BorderRadius.circular(12)),
-                     elevation: 20,
-                     child: Column(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       crossAxisAlignment: CrossAxisAlignment.center,
-                       children: <Widget>[
-                         Icon(
-                           Icons.local_mall,
-                           size: 50,
-                         ),
-                         Padding(
-                           padding: EdgeInsets.only(top: 10),
-                         ),
-                         Text("Moda")
-                       ],
-                     ),
-                   ),
-                 ),
-               )
-                ],
-              ),
-              Padding(padding: EdgeInsets.only(top: 5),),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 160,
-                    width: 160,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      elevation: 20,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.directions_car,
-                            size: 50,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10),
-                          ),
-                          Text("Oto Aksesuar")
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 160,
-                    width: 160,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      elevation: 20,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.local_florist,
-                            size: 50,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10),
-                          ),
-                          Text("Bahçe")
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(padding: EdgeInsets.only(top: 5),),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 160,
-                    width: 160,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      elevation: 20,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.build,
-                            size: 50,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10),
-                          ),
-                          Text("Yapı Market")
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 160,
-                    width: 160,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      elevation: 20,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.toys,
-                            size: 50,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10),
-                          ),
-                          Text("Anne,Bebek,Oyuncak")
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(padding: EdgeInsets.only(top: 5),),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 160,
-                    width: 160,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      elevation: 20,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.directions_run,
-                            size: 50,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10),
-                          ),
-                          Text("Spor,Outdoor")
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 160,
-                    width: 160,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      elevation: 20,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.brush,
-                            size: 50,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10),
-                          ),
-                          Text("Kişisel Bakım")
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(padding: EdgeInsets.only(top: 5),),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 160,
-                    width: 160,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      elevation: 20,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.local_grocery_store,
-                            size: 50,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10),
-                          ),
-                          Text("Süpermarket")
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 160,
-                    width: 160,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      elevation: 20,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.local_library,
-                            size: 50,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10),
-                          ),
-                          Text("Kitap,Müzik,Film,Hobi",)
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
+        body: ListView.builder(
+          itemCount: categories.length,
+          itemBuilder:(context,index){
+            return Column(children: [
+              GestureDetector(
+              onTap: (){
+                setState(() {
+                  activeCat[index]=activeCat.elementAt(index)== true
+                  ?false
+                  :true;
+                });
+              },
+              child:Row(children: [
+                Text(categories.elementAt(index))
+              ],)
+            ),
+            activeCat.elementAt(index)?
+            ListView.builder(
+              itemCount: subCategories.length,
+              itemBuilder:(context,subIndex){
+                return GestureDetector(
+                  child:
+                  Row(children: [
+                    Text(
+                      subCategories.elementAt(index).elementAt(subIndex),
+                    )
+                  ],)
+                );
+              } 
+              ):
+              Container(),
             ],
-          )),
+            );
+          }
+          ),
+    
+      ) 
     );
   }
 }

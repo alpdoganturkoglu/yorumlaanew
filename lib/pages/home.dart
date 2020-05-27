@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:yorumlaa/Controller/categoryController.dart';
+import 'package:yorumlaa/Controller/productContreller.dart';
+import 'package:yorumlaa/makeComment.dart';
 import 'file:///C:/Users/turko/AndroidStudioProjects/yorumlaa/lib/pages/followpage.dart';
 import 'package:yorumlaa/pages/profilePage.dart';
-import 'file:///C:/Users/turko/AndroidStudioProjects/yorumlaa/lib/pages/mCategory.dart';
+import 'package:yorumlaa/pages/category.dart';
 import 'package:yorumlaa/pages/mainPage.dart';
+import 'package:yorumlaa/pages/testpage.dart';
 import 'package:yorumlaa/signin.dart';
 import '../floatingButton.dart';
+
+
 
 class home extends StatefulWidget {
   @override
@@ -15,7 +21,7 @@ class _homeState extends State<home> {
   int currentTab = 0;
   final List<Widget> pages = [
     mainPage(),
-    mCategory(),
+    category(),
     followPage(),
     profilePage(),
   ];
@@ -56,11 +62,13 @@ class _homeState extends State<home> {
                       iconSize: currentTab == 0 ? 40: 24
                   ),
                   IconButton(
-                    onPressed: () {
-                      setState(() {
-                        currentPage = mCategory();
+                    onPressed: () async{
+                      var temp= await categoryData();
+                      if (temp !=null){ setState(() {
+                        currentPage = category();
                         currentTab = 1;
-                      });
+                      });}
+                      
                     },
                     icon: Icon(Icons.apps, color:Colors.white),iconSize: currentTab == 1 ? 40: 24 ,
                   ),

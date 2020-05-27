@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:yorumlaa/Controller/createCommentCont.dart';
 import 'package:yorumlaa/main.dart';
 
 
@@ -10,13 +11,14 @@ class makeComment extends StatefulWidget{
 }
 
 class _makeCommentState extends State<makeComment>{
-
+  var _formKey = GlobalKey<FormState>();
   double _value=5;
   double _value2=5;
   double _value3=5;
   double _value4=5;
   double _value5=5;
   int cPageint= 0;
+  TextEditingController commentBody = TextEditingController();
   PageController mcomment =PageController(initialPage: 0);
   cPage(){
     mcomment.addListener(() {
@@ -28,26 +30,8 @@ class _makeCommentState extends State<makeComment>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      title: Text(
-        "Yorumlaa",
-        style: TextStyle(
-          color: Color.fromRGBO(1, 186, 239, 1),
-        ),
-      ),
-      centerTitle: true,
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.notifications_none,
-            color: Color.fromRGBO(1, 186, 239, 1),
-          ),
-        )
-      ],
-    ),
-      floatingActionButton:Row(
+      
+      floatingActionButton:Stack(
 
        children: <Widget>[
          cPage() ==0?Stack(
@@ -56,6 +40,7 @@ class _makeCommentState extends State<makeComment>{
              Align(
                alignment: Alignment.bottomRight,
                child: FloatingActionButton(
+                 backgroundColor: Color.fromRGBO(32, 191, 85, 1),
                  onPressed: (){
                    mcomment.animateToPage(1, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
                  },
@@ -66,23 +51,25 @@ class _makeCommentState extends State<makeComment>{
          ):
          Stack(
            children: <Widget>[
-             Align(
-               alignment: Alignment.bottomLeft,
-               child: FloatingActionButton(
-                 onPressed: (){
-                   mcomment.animateToPage(0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-                 },
-                 child: Icon(
-                     Icons.arrow_back
-                 ),
-               ),
-             ),
+    
              Align(
                alignment: Alignment.bottomRight,
                child: FloatingActionButton(
-                 onPressed: (){
-                   Navigator.pop(context);
+                 backgroundColor: Color.fromRGBO(32, 191, 85, 1),
+                 onPressed: ()async{
+                  if(_formKey.currentState.validate()){
+                    var commentbodyto= commentBody.text.trim();
+                   var control =await createComment
+                    (commentbodyto,"Genel", "Performans","Kamera", "Ekran", "Batarya", _value.round(), _value2.round(), _value3.round(), _value4.round(), _value5.round(), "iphone-x");
+                    if(control == null){
+                      Navigator.pop(context);
+                    }                
+                    else{
+                     return null; 
+                    }
+                  }
                  },
+
                  child: Icon(
                    Icons.check
                  ),
@@ -99,9 +86,9 @@ class _makeCommentState extends State<makeComment>{
           child: PageView(
           controller: mcomment,
           children: <Widget>[
-          SizedBox(
-          width: 400,
-          height: 800,
+          Container (
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -117,7 +104,7 @@ class _makeCommentState extends State<makeComment>{
                     colors: [ Color.fromRGBO(1, 186, 239, 1), Color.fromRGBO(32, 191, 85, 1)]
                   )
                 ),
-                width: 300,
+                 width: MediaQuery.of(context).size.width/1.2,
                 child:Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -138,8 +125,8 @@ class _makeCommentState extends State<makeComment>{
 
                       ),
                       child:  Slider(
-                        divisions: 10,
-                        min: 0,
+                        divisions: 9,
+                        min: 1,
                         max: 10,
                         value: _value,
                         onChanged: (value){
@@ -164,7 +151,7 @@ class _makeCommentState extends State<makeComment>{
                           colors: [ Color.fromRGBO(1, 186, 239, 1), Color.fromRGBO(32, 191, 85, 1)]
                       )
                   ),
-                  width: 300,
+                  width: MediaQuery.of(context).size.width/1.2,
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -185,8 +172,8 @@ class _makeCommentState extends State<makeComment>{
 
                         ),
                         child:  Slider(
-                          divisions: 10,
-                          min: 0,
+                          divisions: 9,
+                          min: 1,
                           max: 10,
                           value: _value2,
                           onChanged: (value){
@@ -211,7 +198,7 @@ class _makeCommentState extends State<makeComment>{
                           colors: [ Color.fromRGBO(1, 186, 239, 1), Color.fromRGBO(32, 191, 85, 1)]
                       )
                   ),
-                  width: 300,
+                   width: MediaQuery.of(context).size.width/1.2,
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -232,8 +219,8 @@ class _makeCommentState extends State<makeComment>{
 
                         ),
                         child:  Slider(
-                          divisions: 10,
-                          min: 0,
+                          divisions: 9,
+                          min: 1,
                           max: 10,
                           value: _value3,
                           onChanged: (value){
@@ -258,7 +245,7 @@ class _makeCommentState extends State<makeComment>{
                           colors: [ Color.fromRGBO(1, 186, 239, 1), Color.fromRGBO(32, 191, 85, 1)]
                       )
                   ),
-                  width: 300,
+                  width: MediaQuery.of(context).size.width/1.2,
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -280,8 +267,8 @@ class _makeCommentState extends State<makeComment>{
                         ),
                         child:  Slider(
 
-                          divisions: 10,
-                          min: 0,
+                          divisions: 9,
+                          min: 1,
                           max: 10,
                           value: _value4,
                           onChanged: (value){
@@ -306,7 +293,7 @@ class _makeCommentState extends State<makeComment>{
                           colors: [ Color.fromRGBO(1, 186, 239, 1), Color.fromRGBO(32, 191, 85, 1)]
                       )
                   ),
-                  width: 300,
+                   width: MediaQuery.of(context).size.width/1.2,
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -327,8 +314,8 @@ class _makeCommentState extends State<makeComment>{
 
                         ),
                         child:  Slider(
-                          divisions: 10,
-                          min: 0,
+                          divisions: 9,
+                          min:1,
                           max: 10,
                           value: _value5,
                           onChanged: (value){
@@ -346,55 +333,50 @@ class _makeCommentState extends State<makeComment>{
             ],
           ),
         ),
-         Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        gradient: LinearGradient(
-                            colors: [ Color.fromRGBO(1, 186, 239, 1), Color.fromRGBO(32, 191, 85, 1)]
-                        )
-                    ),
-                    height: 400,
-                    width: 300,
-                    child:Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                            "Yorumlaayın.",
-                          style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
-                        ),
-                        Padding(padding: EdgeInsets.only(top: 20),),
-                        SizedBox(
+         Container(
+            width: MediaQuery.of(context).size.width,
+          
+              child: Column(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                   children: [
+                      Container(
 
-                          width: 280,
-                          child: TextField(
+                          width: MediaQuery.of(context).size.width/1.3,
+                          child: Form(
+                            autovalidate: true,
+                            key: _formKey,
+                            child:TextFormField(
+                            validator: (value)=> value.isEmpty?" Bu kısım Boş bırakılamaz":null,
+                            controller: commentBody,
                             maxLines: 10,
-                            maxLength: 2000,
-                            autofocus: false,
+                            maxLength: 300,
+                            autofocus: true,
                             decoration: InputDecoration(
-
+                              focusedErrorBorder:OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                                borderRadius:BorderRadius.all(Radius.circular(12)) ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                                borderRadius:BorderRadius.all(Radius.circular(12)) ),
                               hintText: "Yorumunuz",
                                 enabledBorder: OutlineInputBorder(
-
+                                    borderSide: BorderSide(color: Color.fromRGBO(1, 186, 239, 1)),
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(12))),
                                 focusedBorder: OutlineInputBorder(
-
+                                  borderSide: BorderSide(color: Color.fromRGBO(1, 186, 239, 1)),
                                   borderRadius: BorderRadius.all(Radius.circular(12)),
                                 ),
                                 filled: true,
                                fillColor: Colors.white
                             ),
-                          ),
+                          ), 
+                            )
                         )
-                      ],
-                    )
+                   ],
                 ),
-              ],
+              
          )
         ],
       ),

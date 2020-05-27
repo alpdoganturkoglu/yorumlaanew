@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yorumlaa/pages/searchPage.dart';
 
 
 class floatingButton extends StatelessWidget{
@@ -9,7 +10,7 @@ class floatingButton extends StatelessWidget{
       elevation: 0,
       backgroundColor: Color.fromRGBO(32, 191, 85, 1),
       onPressed: (){
-        Navigator.pushNamed(context, "/searchpage");
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>searhPage()));
       },
       child: Icon(Icons.search),
     );

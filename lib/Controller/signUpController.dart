@@ -12,7 +12,8 @@ Future<String> signUp(String username,String email,String password) async{
       
     }
   };
-  var response = await http.post("https://yorumlaa.herokuapp.com/api/signup",
+  var response = await http.post(
+    "https://yorumlaa.herokuapp.com/api/signup",
   body: jsonEncode(signUpData),
   headers: {"Content-Type": "application/json"},
   );

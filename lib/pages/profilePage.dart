@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yorumlaa/pages/profileEdit.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:yorumlaa/signin.dart';
+import 'package:yorumlaa/Controller/signInControlle.dart';
 
 
 
@@ -12,7 +12,6 @@ class profilePage extends StatefulWidget{
   State<StatefulWidget> createState() => _profilePageState();
 }
 
-bool isSignIn =false;
 class _profilePageState extends State<profilePage>{
 
 
@@ -34,12 +33,12 @@ class _profilePageState extends State<profilePage>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   CircleAvatar(
-                    backgroundImage: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQhhklLpQnJpmdcRWm07dxiiIp22D9ZaFlhzNF5S7EMPxEinocq&usqp=CAU"),
+                    backgroundImage: NetworkImage("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"),
                     radius: 50,
                   ),
                   Padding(padding: EdgeInsets.only(bottom: 20),),
                   Text(
-                    "alpdogant",
+                    userData[0].username,
                     style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold),
                   ),
 

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:yorumlaa/Controller/userDelete.dart';
 import 'package:yorumlaa/pages/changePassword.dart';
 import 'package:yorumlaa/pages/infoedit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'dart:io';
 
-
+TextEditingController _passwordtoDelete = TextEditingController();
 class profileEdit extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _profileEditState();
@@ -171,7 +172,7 @@ class _profileEditState extends State<profileEdit> {
               ),
             ),
             Container(
-              height:60,
+              height:70,
               width: MediaQuery.of(context).size.width,
               child: Card(
                 elevation: 12,
@@ -185,6 +186,88 @@ class _profileEditState extends State<profileEdit> {
                   ],
                 ),
               ),
+            ),
+             Container(
+              height:70,
+              width: MediaQuery.of(context).size.width,
+              child: GestureDetector(
+                onTap: (){
+                  showDialog(
+                    
+                    context: context,
+                  builder: (BuildContext){
+                    return Container(
+                      width: MediaQuery.of(context).size.width/1.8,
+                      height: MediaQuery.of(context).size.height/2,
+                      child: AlertDialog(
+                      actions: [
+                       FlatButton(
+                         onPressed: (){
+                           Navigator.pop(context);
+                         },
+                         child: Text("İptal",style: TextStyle(fontSize: 18,color:Colors.red)),
+                       ),
+                       Container(
+                       
+                         child: FlatButton(
+                           onPressed: (){
+                            var password= _passwordtoDelete.text.trim();
+                             deleteUser(password);
+                           },
+                          child: Text("Onayla",style: TextStyle(fontSize: 18,color:Colors.blue)),
+                       ),
+                       )
+                      ],
+                      title: Text("Hesabı silmek istediğinize emin misiniz?",style: TextStyle(fontWeight: FontWeight.bold),),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text
+                            (
+                            "Bu işlemi onaylamak hesabınızın kalıcı olarak silinmesine sebep olacak."
+                            ),
+                          Container(
+
+                            margin: EdgeInsets.only(top: 5),
+                            child: TextFormField(
+                              controller: _passwordtoDelete,
+                              style: TextStyle(fontSize: 12),
+                              autofocus: true,
+                              autocorrect: false,
+                              autovalidate: true,
+                              maxLines: 1,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                              hintText: "Şifreniz",
+                              enabledBorder:OutlineInputBorder(
+                                
+                               borderRadius: BorderRadius.all(Radius.circular(12))
+
+                               ),
+                             focusedBorder: OutlineInputBorder(
+                               borderRadius: BorderRadius.all(Radius.circular(12))
+                               )
+                           ),
+                          ),),
+                        ],
+                        ),
+                    ),
+                    );
+                  });
+                },
+                child: Card(
+                elevation: 12,
+                child: Row(
+                  children: <Widget>[
+                    Padding(padding: EdgeInsets.all(5),child:  Icon(Icons.delete),),
+                    Text(
+                        "Hesabımı Sil",
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
+                ),
+              ),
+              )
             )
           ],
         ),

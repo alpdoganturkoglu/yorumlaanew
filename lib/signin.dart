@@ -1,11 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yorumlaa/lands.dart';
+import 'dart:ui';
 import 'package:yorumlaa/pages/home.dart';
 import 'package:yorumlaa/Controller/signInControlle.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+
+
+
+
+
 final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>(); 
-var jwt =null;
+var jwt ;
 var _formKey = GlobalKey<FormState>();
 class signin extends StatefulWidget{
   @override
@@ -19,6 +26,13 @@ final storage = new FlutterSecureStorage();
 class _signInState extends State<signin>{
   @override
   Widget build(BuildContext context) {
+    final pr = ProgressDialog(context,type: ProgressDialogType.Normal,isDismissible: false,showLogs: false);
+    pr.style(
+      message: "Lütfen Bekleyiniz",
+      progressWidget: CircularProgressIndicator(),
+      elevation: 12,
+      insetAnimCurve: Curves.easeInOut,
+    );
     return Scaffold(
       key: _scaffoldkey,
       body: Container(
@@ -136,23 +150,25 @@ class _signInState extends State<signin>{
                     child: RaisedButton(
                       onPressed: () async {
                       if (_formKey.currentState.validate()){
-                        var username= _usarnamemailController.text.trim();
+                      pr.show();
+                      var username= _usarnamemailController.text.trim();
                       var password= _passwordController.text.trim();
                       var jwttemp= await signIn(username,password);
-                     
+                      
                       if (jwttemp != null){
                       setState(() {
                         
                         
-                        jwt= jwttemp;
-                        storage.write(key: jwt, value: jwt);
+                        jwt = jwttemp;
+                        
                       });
+                      pr.hide();
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> home()));
                       }
                       else{
                         _scaffoldkey.currentState.showSnackBar(
                           SnackBar(
-                            content: Text(jwt,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.bold),),
+                            content: Text(jwttemp,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.bold),),
                             duration: Duration(seconds: 3),
                             backgroundColor: Color.fromRGBO(32, 191, 85, 1),
                             elevation: 12,
