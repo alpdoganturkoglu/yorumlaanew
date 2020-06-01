@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yorumlaa/Controller/categoryController.dart';
 import 'package:yorumlaa/Controller/productContreller.dart';
+import 'package:yorumlaa/Controller/searchbyCatCont.dart';
 import 'package:yorumlaa/makeComment.dart';
+import 'package:yorumlaa/pages/productList.dart';
+import 'package:yorumlaa/pages/productPage.dart';
 import 'file:///C:/Users/turko/AndroidStudioProjects/yorumlaa/lib/pages/followpage.dart';
 import 'package:yorumlaa/pages/profilePage.dart';
 import 'package:yorumlaa/pages/category.dart';
@@ -63,11 +66,14 @@ class _homeState extends State<home> {
                   ),
                   IconButton(
                     onPressed: () async{
-                      var temp= await categoryData();
-                      if (temp !=null){ setState(() {
-                        currentPage = category();
-                        currentTab = 1;
-                      });}
+                     
+                      await categoryData();
+
+                        setState(() {
+                          currentPage =category();
+                          currentTab = 1;
+                        });
+                      
                       
                     },
                     icon: Icon(Icons.apps, color:Colors.white),iconSize: currentTab == 1 ? 40: 24 ,

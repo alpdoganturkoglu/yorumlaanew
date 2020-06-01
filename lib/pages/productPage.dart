@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:yorumlaa/Controller/followController.dart';
 import 'package:yorumlaa/makeComment.dart';
 import 'package:yorumlaa/signin.dart';
+import 'package:yorumlaa/Controller/productContreller.dart';
 
-
-
+var showPinf= prdctInf[0];
 class productPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _productPageState();
@@ -72,6 +73,7 @@ class _productPageState extends State<productPage>{
     ,time: "21/02/2020",like:"1K" ,dislike: "2K",rating: 4),
     comment(user: "damat",commentw: "ÜRÜN ÇOK çokomelli",time: "21/02/2020",like:"1" ,dislike: "1k",rating: 9),
   ];
+  bool isF = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,7 +119,7 @@ class _productPageState extends State<productPage>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Apple iPhone 11 Pro",
+                        prdctInf[0].toString(),
                         style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                       )
                     ],
@@ -143,7 +145,7 @@ class _productPageState extends State<productPage>{
                           ),
                         )
                       ]
-                  ),//porduct image
+                  ),//product image
                   Container(
                     width: 200,
                     height: 120,
@@ -224,6 +226,33 @@ class _productPageState extends State<productPage>{
                         )
                     ),
                   ),//product rating
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height/11,
+                    color: Color.fromRGBO(32, 191, 85, 1),
+                    margin: EdgeInsets.all(5),
+                    child: ButtonTheme(
+                      child: RaisedButton(
+                      color:isF?Colors.white:Color.fromRGBO(32, 191, 85, 1),
+                      onPressed: () async {
+                        if (jwt !=null){
+                          var check = followProduct(prdctInf[1]);
+                          if (check == null){
+                            setState(() {
+                              isF = true;
+                            });
+                          }
+                        }
+                        else {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> signin()));
+                        }
+                      },
+                      elevation: 12 ,
+                      child:Text("Takip Et",style: TextStyle(color: isF?Color.fromRGBO(32, 191, 85, 1):Colors.white)
+                      ),
+                      ),
+                    )
+                  ),
                   Card(
                     elevation: 5,
                     child: ExpansionTile(

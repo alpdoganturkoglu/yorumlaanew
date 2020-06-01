@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yorumlaa/Controller/productContreller.dart';
 import 'package:yorumlaa/Controller/categoryController.dart';
+import 'package:yorumlaa/Controller/searchbyCatCont.dart';
+import 'package:yorumlaa/pages/mainPage.dart';
 
 
 class testPage extends StatefulWidget{
@@ -25,9 +27,10 @@ class _testPageState extends State<testPage>{
             children: [
             RaisedButton(
               onPressed: ()async{
-                 var productinf = await categoryData();
+                 String slug= "iphone-x";
+                 var productinf = await categorySearch("Akıllı Telefon");
                
-               _scaffoldkeySUp.currentState.showSnackBar(SnackBar(content: Text(subCategory.toString())));
+               _scaffoldkeySUp.currentState.showSnackBar(SnackBar(content: Text(commentP.toString())));
               },
             )
           ],),

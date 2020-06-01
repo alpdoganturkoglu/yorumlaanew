@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yorumlaa/pages/productPage.dart';
+import 'package:yorumlaa/Controller/searchbyCatCont.dart';
+import 'package:yorumlaa/pages/productList.dart';
 import 'package:yorumlaa/Controller/categoryController.dart';
-
 import 'package:yorumlaa/pages/subCategory.dart';
 
 
@@ -45,25 +45,39 @@ class _categoryState extends State<category>{
         body: ListView.builder(
           itemCount: mainCategory.length,
           itemBuilder:(context,index){
-            return GestureDetector(
-              onTap: (){
-               var toGo=subCategory[index];
+            return InkWell(
+              onTap: () async {
+                var toGo=subCategory[index];
                 if(toGo != null){
                   toCome(toGo);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> subCat()));
                 }
-                else{
-                  //mainCategory[index]
-                  return null;
+                else {
+                  var check=await categorySearch(mainCategory.elementAt(index));
+                  if(check == null){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>productList()));
+                  }
+                  else{
+                    return null;
+                  }
+                  
                 }
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> subCat()));
+              
               },
               child:Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height/8,
-                child: 
-              Row(children: [
-                Text(mainCategory.elementAt(index))
-              ],)
+                height: MediaQuery.of(context).size.height/9,
+                child: Card(
+                  elevation: 12,
+                  child: Row(children: [
+                  Container(
+                  margin: EdgeInsets.all(15),
+                  child: Text(mainCategory.elementAt(index),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),)
+              
+                
+              ],),
+                )
+              
               ,)
             );
             

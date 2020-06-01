@@ -10,7 +10,7 @@ List <String> mainCategory =[];
 
 List <List<String>> subCategory= [];
 List <List<String>> subSubCategory= [];
-List<List<String>> lastCategory;
+List<List<String>> lastCategory=[];
 
 
 class categoryParse{

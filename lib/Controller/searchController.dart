@@ -1,9 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
-
 import 'dart:convert';
-List <List<searchData>>sDatatosent =[];
+
+
+
+List <String> titlesearch =[];
+List <String> slugsearch=[];
+List <String> categorysearched=[];
 class searchData{
   String title;
   bool agerest;
@@ -23,13 +26,16 @@ class searchData{
 void searchtoParse(jsonbody){
   for (int i=0 ; i<jsonbody.length; i++){
     var parsed = searchData.fromJson(jsonbody[i]);
-    sDatatosent.add([parsed]);
-    debugPrint(sDatatosent.toString());
+    titlesearch.add(parsed.title);
+    slugsearch.add(parsed.slug);
+    categorysearched.add(parsed.category);
   }
 }
 
 Future <String> searchController(String searchText)async{
-    sDatatosent.clear();
+    titlesearch.clear();
+    slugsearch.clear();
+    categorysearched.clear();
     Map<String,dynamic> searchData ={
       "search": searchText,
     };
@@ -42,6 +48,7 @@ Future <String> searchController(String searchText)async{
   if(searchResponse.statusCode ~/ 100 == 2 ){
 
     searchtoParse(jsonDecode(searchResponse.body));
+    return null;
   }
   else{
     return searchResponse.body.toString();
