@@ -85,7 +85,9 @@ class _productListState extends State<productList>{
                                   border: Border.all(color: Colors.grey),
                                   borderRadius: BorderRadius.all(Radius.circular(12))
                               ),
-                              child:SizedBox(width: 100,height: 100,child:  Image.network(img,fit: BoxFit.scaleDown,)),
+                              child:SizedBox(width: 100,height: 100,
+                            //  child:  Image.network(img,fit: BoxFit.scaleDown,)
+                              ),
 
                             ),
                             Padding(padding: EdgeInsets.all(5),child: Text("8.000"+" - "+"10.000",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold)),),

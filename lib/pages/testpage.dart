@@ -27,10 +27,11 @@ class _testPageState extends State<testPage>{
             children: [
             RaisedButton(
               onPressed: ()async{
+              
                  String slug= "iphone-x";
-                 var productinf = await categorySearch("Akıllı Telefon");
-               
-               _scaffoldkeySUp.currentState.showSnackBar(SnackBar(content: Text(commentP.toString())));
+                 var productinf = await getProduct(slug);
+                _scaffoldkeySUp.currentState.showSnackBar(SnackBar(content: Text(rating.toString())));
+              
               },
             )
           ],),

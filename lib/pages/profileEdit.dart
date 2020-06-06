@@ -6,7 +6,10 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'dart:io';
 
-TextEditingController _passwordtoDelete = TextEditingController();
+import 'package:yorumlaa/pages/userDeletePage.dart';
+
+
+
 class profileEdit extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _profileEditState();
@@ -192,69 +195,10 @@ class _profileEditState extends State<profileEdit> {
               width: MediaQuery.of(context).size.width,
               child: GestureDetector(
                 onTap: (){
-                  showDialog(
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> userDeletePage()));
                     
-                    context: context,
-                  builder: (BuildContext){
-                    return Container(
-                      width: MediaQuery.of(context).size.width/1.8,
-                      height: MediaQuery.of(context).size.height/2,
-                      child: AlertDialog(
-                      actions: [
-                       FlatButton(
-                         onPressed: (){
-                           Navigator.pop(context);
-                         },
-                         child: Text("İptal",style: TextStyle(fontSize: 18,color:Colors.red)),
-                       ),
-                       Container(
-                       
-                         child: FlatButton(
-                           onPressed: (){
-                            var password= _passwordtoDelete.text.trim();
-                             deleteUser(password);
-                           },
-                          child: Text("Onayla",style: TextStyle(fontSize: 18,color:Colors.blue)),
-                       ),
-                       )
-                      ],
-                      title: Text("Hesabı silmek istediğinize emin misiniz?",style: TextStyle(fontWeight: FontWeight.bold),),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text
-                            (
-                            "Bu işlemi onaylamak hesabınızın kalıcı olarak silinmesine sebep olacak."
-                            ),
-                          Container(
-
-                            margin: EdgeInsets.only(top: 5),
-                            child: TextFormField(
-                              controller: _passwordtoDelete,
-                              style: TextStyle(fontSize: 12),
-                              autofocus: true,
-                              autocorrect: false,
-                              autovalidate: true,
-                              maxLines: 1,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                              hintText: "Şifreniz",
-                              enabledBorder:OutlineInputBorder(
-                                
-                               borderRadius: BorderRadius.all(Radius.circular(12))
-
-                               ),
-                             focusedBorder: OutlineInputBorder(
-                               borderRadius: BorderRadius.all(Radius.circular(12))
-                               )
-                           ),
-                          ),),
-                        ],
-                        ),
-                    ),
-                    );
-                  });
-                },
+                  }
+                ,
                 child: Card(
                 elevation: 12,
                 child: Row(

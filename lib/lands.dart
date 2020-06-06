@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:yorumlaa/Controller/signUpController.dart';
+import 'package:yorumlaa/pages/accountApprovpage.dart';
 
 
 
@@ -292,7 +293,9 @@ class _landsState extends State<lands>{
                             _scaffoldkeySUp.currentState.showSnackBar(SnackBar(
                               content: Text("Üyelik İşleminizi tamamlamak için e-posta..."),
                               )
+
                               );
+                              Navigator.push(context, MaterialPageRoute(builder:(context)=>apPage()));
                           }
                           else{
                             _scaffoldkeySUp.currentState.showSnackBar(SnackBar(

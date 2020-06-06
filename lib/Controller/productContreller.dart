@@ -3,13 +3,19 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-List <comdetail> commentP=[];
+import 'package:yorumlaa/signin.dart';
+
+List <String> commentP=[];
+List <List<String>> comDetails=[];
+List <String> comId =[];
+List <List<String>> comT=[];
+List <List<String>> commentUser=[];
 List rating=[];
 List productImages =[];
 var inf;
-var parsedrating;
 List <productData> productD =[];
-
+List <num> prdctrating=[];
+List <String> rName=[];
 
 
 class productImg{
@@ -34,22 +40,14 @@ class productR{
     );
   }
 }
-class toPartR{
-  num r1;
-  num r2;
-  num r3;
-  num r4;
-  toPartR({this.r1,this.r2,this.r3,this.r4});
-  factory toPartR.fromJson(Map<String,dynamic> partData){
-    return toPartR(
-      r1: partData[partData.keys],
-      r2: partData[partData.keys],
-      r3: partData[partData.keys],
-      r4: partData[partData.keys]
-    );
-  }
+
+
+void ratingJson(Map<String,dynamic> partData){
+  partData.keys.forEach((element) {rName.add(element);});
+  partData.values.forEach((element) {prdctrating.add(element);});
   
 }
+
 
 class comdetail{
   int comid ;
@@ -79,12 +77,14 @@ class comdetail{
 
 class productComment{
   num av_rating;
-  List<dynamic> comment;
-  productComment({this.av_rating,this.comment});
+  Map comment;
+  String liked;
+  productComment({this.av_rating,this.comment,this.liked});
   factory productComment.fromJson(Map<String,dynamic> commentData){
     return productComment(
       av_rating: commentData['rating'],
       comment:commentData['comment'],
+      liked: commentData['like'],
     );
   } 
 }
@@ -122,11 +122,11 @@ class productData{
  
   
   Map rating;
-  
+  bool following;
   List images;
   List<dynamic> breadcrumb;
   List<dynamic> comments;
-  productData({this.product,this.rating,this.images,this.breadcrumb,this.comments});
+  productData({this.product,this.rating,this.images,this.breadcrumb,this.comments,this.following});
 
   factory productData.fromJson(Map<String,dynamic> jsonProduct){
     
@@ -135,7 +135,8 @@ class productData{
       product: jsonProduct['product'] as Map,
       rating: jsonProduct['ratings'] as Map,
       breadcrumb: jsonProduct['breadcrump'] as List,
-      comments: jsonProduct['comments'] as List<dynamic>
+      comments: jsonProduct['comments'] as List<dynamic>,
+      following: jsonProduct['following']
     );
   }
   
@@ -149,10 +150,17 @@ void imgParse(imageJson){
   }
 
 }
+List wld=[];
 void commentParse(commentJson){
   for (int i =0 ; i<commentJson.length; i++){
     var com= productComment.fromJson(commentJson[i]);
-    commentP.add(comdetail.fromJson(com.comment[0]));
+    wld.add(com.liked);
+    var commentL= comdetail.fromJson(com.comment);
+    commentP.add(commentL.body);
+    commentUser.add([commentL.user_id.toString(),commentL.username]);
+    comDetails.add([commentL.like.toString(),commentL.dislike.toString()]);
+    comId.add(commentL.comid.toString());
+    comT.add([commentL.created,commentL.updated]);
     rating.add(com.av_rating);
     }
 }
@@ -161,25 +169,32 @@ void getProductData(Map product,List images,List breadcrumb,data){
   productV=data;
   productD.add(productData(product: product,images: images,breadcrumb: breadcrumb));
 }
+bool follow= false; 
 List <String> prdctInf=[];
-
+String slugtoref;
 Future getProduct(String urlslug) async{
-
+  slugtoref = urlslug;
   String urls= "https://yorumlaa.herokuapp.com/api/products/"+urlslug;
-  var response = await http.get(urls,headers: {"Content-Type": "application/json"});
-  if(response.statusCode~/100 ==2){
+  if(jwt ==null){
+    var response = await http.get(urls,headers: {"Content-Type": "application/json"});
+    if(response.statusCode~/100 ==2){
+    prdctrating.clear();
+    rName.clear();
     commentP.clear();
     prdctInf.clear();
+    wld.clear();
     rating.clear();
     productImages.clear();
     productD.clear();
     var data = productData.fromJson(jsonDecode(response.body));
+    follow = data.following;
+    debugPrint(data.toString());
     var inf =productInf.fromJson(data.product);
     prdctInf.add(inf.title);
     prdctInf.add(inf.id.toString());
+    commentParse(data.comments);
     var product_rating= productR.fromJson(data.rating);
-    parsedrating = toPartR.fromJson(product_rating.part);
-    
+    ratingJson(product_rating.part);
     return  null;
 
   }
@@ -189,5 +204,37 @@ Future getProduct(String urlslug) async{
 
   }
 
+  }
+  else{
+    var response = await http.get(urls,headers: {"Content-Type": "application/json","Authorization": jwt});
+    if(response.statusCode~/100 ==2){
+    prdctrating.clear();
+    rName.clear();
+    commentP.clear();
+    wld.clear();
+    prdctInf.clear();
+    rating.clear();
+    productImages.clear();
+    productD.clear();
+    var data = productData.fromJson(jsonDecode(response.body));
+    follow = data.following;
+    debugPrint(data.toString());
+    var inf =productInf.fromJson(data.product);
+    prdctInf.add(inf.title);
+    prdctInf.add(inf.id.toString());
+    commentParse(data.comments);
+    var product_rating= productR.fromJson(data.rating);
+    ratingJson(product_rating.part);
+    return  null;
+
+  }
+  else {
+
+    return  response.statusCode.toString();
+
+  }
+
+  }
+  
 
 }

@@ -2,10 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:yorumlaa/Controller/cLDcontroller.dart';
 import 'package:yorumlaa/Controller/followController.dart';
+import 'package:yorumlaa/Controller/signInControlle.dart';
 import 'package:yorumlaa/makeComment.dart';
 import 'package:yorumlaa/signin.dart';
 import 'package:yorumlaa/Controller/productContreller.dart';
+
+
 
 var showPinf= prdctInf[0];
 class productPage extends StatefulWidget{
@@ -23,22 +27,24 @@ Color ratingcolor(rating){
     return Colors.red;
     }
 }
-class comment{
-  comment(
-  {this.user,this.time,this.commentw,this.like,this.dislike,this.rating}
-      );
-  String like;
-  String dislike;
-  String user;
-  String time;
-  String commentw;
-  int rating;
-}
 
 class _productPageState extends State<productPage>{
-  Future<void> _getData() async {
-    comments.add(comment(user: "şahink",commentw: "ÜRÜN ÇOK Güzel",time: "21/02/2020",like:"1k" ,dislike: "13",rating: 1),);
 
+
+  Future<void> _getData() async {
+    getProduct(slugtoref);
+
+  }
+  Color colorld(String liked){
+    if(liked == "liked"){
+      return Colors.green;
+    }
+    else if(liked == "disliked"){
+      return Colors.red;
+    }
+    else{
+      return Colors.grey;
+    }
   }
   PageController pageController;
   List<String> images =[
@@ -64,15 +70,7 @@ class _productPageState extends State<productPage>{
     super.initState();
     pageController = PageController(initialPage: 0,viewportFraction: 0.8);
   }
-  List <comment> comments=[
-    comment(user: "şahink",commentw: "ÜRÜN ÇOK Güzel",time: "21/02/2020",like:"1k" ,dislike: "13",rating: 1),
-    comment(user: "crazyboy",commentw: "ÜRÜN ÇOK Güzel",time: "21/02/2020",like:"152" ,dislike: "10",rating: 6),
-    comment(user: "ebü ebü",commentw: "ÜRÜN ÇOK Güzel",time: "21/02/2020",like:"3" ,dislike: "1",rating: 8),
-    comment(user: "fıtıfıtı",commentw: "Haftasonu sipariş, Salı teslimat. Açıyorsunuz, karşınıza ucuz kalitesiz birşey çıkacak zannediyorsunuz. Ama efsane sağlam malzemeli, ayarlanabilir ayaklı güzel bir tahta çıkıyor. Sapasağlam malzemeler, sağlam kargolama. Gerçekten mükemmel, çok şaşırdım, bu kadarını beklemiyordum. HARİKA ÜRÜN.",time: "21/02/2020",like:"1000" ,dislike: "100",rating: 10),
-    comment(user: "mustafayılıbık",commentw: "Ham petrol fiyatlarının enflasyona olan etkisi vardır. Petrol fiyatlarındaki artış benzin fiyatlarını artırır, benzin fiyatlarının da ulaştırma aracılığıyla en sonunda enflasyona direk yansır. Buradaki nedensellik etkisi enflasyon arttıkça değerli metallerin de artmasından kaynaklanıyor ve petrol fiyatları enflasyon aracılığıyla değerli metallerin fiyatlarını da artırıyor. Petrol fiyatlarının tüketici fiyatlarına etkisi ve daha sonra bunun değerli metallere olan etkisi biraz gecikmeli olarak gerçekleşiyor"
-    ,time: "21/02/2020",like:"1K" ,dislike: "2K",rating: 4),
-    comment(user: "damat",commentw: "ÜRÜN ÇOK çokomelli",time: "21/02/2020",like:"1" ,dislike: "1k",rating: 9),
-  ];
+  
   bool isF = false;
   @override
   Widget build(BuildContext context) {
@@ -151,78 +149,31 @@ class _productPageState extends State<productPage>{
                     height: 120,
                     child: Card(
                         elevation: 20,
-                        child: ListView(
+                        child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           padding: EdgeInsets.all(10),
-                          children: <Widget>[
-
-                            new CircularPercentIndicator(
-                              footer: Text(
-                                "Genel",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              radius:65,
-                              lineWidth: 7.0,
-                              animation: true,
-                              percent: 1,
-                              center: new RichText(text: TextSpan(text: "8",style:TextStyle(color:Colors.black,fontSize: 13,) ,children: <TextSpan>[TextSpan(text: "/10",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 15))]),),
-                              progressColor: Colors.green,
-                            ),
-                            Padding(padding: EdgeInsets.only(left: 50),),
-                            new CircularPercentIndicator(
+                          itemCount: prdctrating.length,
+                          itemBuilder: (builder,index){
+                            return Container(
+                              width: MediaQuery.of(context).size.width/4,
+                              child:Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                              CircularPercentIndicator(
                               radius:65,
                               lineWidth: 7.0,
                               footer: Text(
-                                "Performans",
+                                rName[index],
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               animation: true,
-                              percent: 0.8,
-                              center: new RichText(text: TextSpan(text: "8",style:TextStyle(color:Colors.black,fontSize: 13,) ,children: <TextSpan>[TextSpan(text: "/10",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 15))]),),
+                              percent: prdctrating[index]/10,
+                              center: new RichText(text: TextSpan(text: prdctrating[index].toInt().toString(),style:TextStyle(color:Colors.black,fontSize: 13,) ,children: <TextSpan>[TextSpan(text: "/10",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 15))]),),
                               progressColor: Colors.green,
-                            ),
-                            Padding(padding: EdgeInsets.only(left: 50),),
-                            new CircularPercentIndicator(
-                              radius:65,
-                              lineWidth: 7.0,
-                              footer: Text(
-                                "Kamera",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-
-                              ),
-                              animation: true,
-                              percent: 0.9,
-                              center: new RichText(text: TextSpan(text: "9",style:TextStyle(color:Colors.black,fontSize: 13,) ,children: <TextSpan>[TextSpan(text: "/10",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 15))]),),
-                              progressColor: Colors.green,
-                            ),
-                            Padding(padding: EdgeInsets.only(left: 50),),
-                            new CircularPercentIndicator(
-                              radius:65,
-                              lineWidth: 7.0,
-                              animation: true,
-                              footer: Text(
-                                "Ekran",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              percent: 0.9,
-                              center: new RichText(text: TextSpan(text: "9",style:TextStyle(color:Colors.black,fontSize: 13,) ,children: <TextSpan>[TextSpan(text: "/10",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 15))]),),
-                              progressColor: Colors.green,
-                            ),
-                            Padding(padding: EdgeInsets.only(left: 50),),
-                            new CircularPercentIndicator(
-                              radius:65,
-                              lineWidth: 7.0,
-                              footer: Text(
-                                "Batarya",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              animation: true,
-                              percent: 0.6,
-                              center: new RichText(text: TextSpan(text: "6",style:TextStyle(color:Colors.black,fontSize: 13,) ,children: <TextSpan>[TextSpan(text: "/10",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 15))]),),
-                              progressColor: Colors.green,
-                            ),
-
-                          ],
+                            )
+                            ],) ,);
+                          },
                         )
                     ),
                   ),//product rating
@@ -233,13 +184,13 @@ class _productPageState extends State<productPage>{
                     margin: EdgeInsets.all(5),
                     child: ButtonTheme(
                       child: RaisedButton(
-                      color:isF?Colors.white:Color.fromRGBO(32, 191, 85, 1),
+                      color:follow == true?Colors.white:Color.fromRGBO(32, 191, 85, 1),
                       onPressed: () async {
                         if (jwt !=null){
                           var check = followProduct(prdctInf[1]);
                           if (check == null){
                             setState(() {
-                              isF = true;
+                              follow= true;
                             });
                           }
                         }
@@ -248,7 +199,7 @@ class _productPageState extends State<productPage>{
                         }
                       },
                       elevation: 12 ,
-                      child:Text("Takip Et",style: TextStyle(color: isF?Color.fromRGBO(32, 191, 85, 1):Colors.white)
+                      child:Text(follow == false?"Takip Et":"Takip Ediliyor",style: TextStyle(color: follow ?Color.fromRGBO(32, 191, 85, 1):Colors.white)
                       ),
                       ),
                     )
@@ -281,9 +232,11 @@ class _productPageState extends State<productPage>{
 
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: comments.length,
+                    itemCount: commentP.length,
                     itemBuilder: (BuildContext context,int index){
-                      final comment= comments[index];
+                      List<Color>likedC=[];
+                      likedC.add(wld[index] == "liked"?colorld(wld[index]):Colors.grey);
+                      Color dislikedC=wld[index] == "disliked"?colorld(wld[index]):Colors.grey;
                       return Container(
 
                         child: Card(
@@ -304,10 +257,10 @@ class _productPageState extends State<productPage>{
                                             LinearPercentIndicator(
                                               width: MediaQuery.of(context).size.width/2.1,
                                               lineHeight: 12,
-                                              leading: Text("4.2"+"  ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: ratingcolor(comment.rating)),),
+                                              leading: Text((rating[index].toString().substring(0,3))+"  ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: ratingcolor(rating[index])),),
                                               animation: true,
-                                              percent: comment.rating/10,
-                                              progressColor: ratingcolor(comment.rating),
+                                              percent: rating[index]/10,
+                                              progressColor: ratingcolor(rating[index]),
                                             )
                                           ],
                                         )
@@ -317,15 +270,54 @@ class _productPageState extends State<productPage>{
                                     Row(
 
                                       children: <Widget>[
-                                        Text(
-                                            comment.time
+                                        Container(
+                                        margin: EdgeInsets.only(left:2 ),
+                                        child:Text(
+                                            comT.elementAt(index)[0].substring(0,10).replaceAll("-", "/")
+                                        ),
                                         ),
                                         Container(
 
                                           child: PopupMenuButton(
-                                              itemBuilder: (_) => <PopupMenuItem<String>>[
-                                                new PopupMenuItem<String>(
-                                                    child: const Text('Şikayet Et'), value: 'Doge'),
+                                              itemBuilder: (BuildContext context) => <PopupMenuEntry<Widget>>[
+                                                    PopupMenuItem<Widget>(
+                                                    child:
+                                                     InkWell(
+                                                       onTap: (){
+                                                         showDialog(context: context,
+                                                        builder:(BuildContext context){
+                                                          return AlertDialog(
+                                                            title: Text("Şikayet Et"),
+                                                            content: Column(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              children: [
+                                                                Container(
+                                                               child: Text(
+                                                                 "Bu yorum sizi rahatsız mı etti?"
+                                                               ),
+                                                             ),
+                                                             Container(
+                                                               child: TextFormField(
+                                                                 
+                                                               ),
+                                                             )
+                                                            ],)
+                                                            );
+                                                        } 
+                                                         );
+                                                       },
+                                                       child: Text(
+                                                        "Şikayet Et"
+                                                      ),)
+                                                  ),
+                                                   PopupMenuItem<Widget>(
+                                                    child:
+                                                     Text(
+                                                         userData != null && userData.elementAt(0).id.toString() == commentUser.elementAt(index)[1].toString()? "Şikayet Et":
+                                                         ""
+                                                      ),
+                                                  )
+                                                  
                                               ]
                                           ),
                                         )
@@ -344,7 +336,7 @@ class _productPageState extends State<productPage>{
                                       child: Container(
                                         margin: EdgeInsets.all(15),
                                         child:    Text(
-                                            comment.commentw,
+                                            commentP[index],
                                             textAlign: TextAlign.start,
                                             style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal)
                                         ),
@@ -371,41 +363,84 @@ class _productPageState extends State<productPage>{
                                             alignment:Alignment.bottomLeft,
                                             child: Text(
                                               "   "+
-                                                  comment.user,
+                                                  commentUser.elementAt(index)[1],
                                               textAlign: TextAlign.start,
 
                                             ),
 
                                           ),
-                                          GestureDetector(
+                                          InkWell(
 
-                                            onTap: (){},
+                                            onTap: ()async{
+                                              
+                                            if (wld[index] ==null ){
+                                              var check =await commentLike(true, comId[index]);
+                                             if (check == null){
+                                              setState(() {
+                                                likedC == Colors.green;
+                                              });
+                                            }
+                                            }
+                                            else if(wld[index]== "disliked"){
+                                              var check= await commentLikePatch(true, comId[index]);
+                                              if(check==null){
+                                                return null;
+                                              }
+                                              else{
+                                                return null;
+                                              }
+                                            }
+                                            else{
+                                              await deleteld(comId[index]);
+                                            }
+                                            },
                                             child: Icon(
                                               Icons.thumb_up,
                                               size: 20,
-                                              color: Colors.green,
+                                              color:wld[index] == "liked"?colorld(wld[index]):Colors.grey,
                                             ),
                                           ),
 
                                           Padding(
                                             padding: EdgeInsets.only(left: 8,right: 10),
                                             child:  Text(
-                                              comment.like,
+                                              comDetails.elementAt(index)[0],
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                           ),
-                                          GestureDetector(
-                                            onTap: (){},
+                                          InkWell(
+                                            onTap: () async{
+                                              if (wld[index] == null){
+                                                var check = await commentLike(false, comId[index]);
+                                                if(check == null){
+                                                  setState(() {
+                                                    dislikedC = Colors.red;
+                                                  });
+                                                }
+                                              }
+                                              else if(wld[index] == "liked"){
+                                              var check= await commentLikePatch(false, comId[index]);
+                                              if(check==null){
+                                                return null;
+                                              }
+                                              else{
+                                                return null;
+                                              }
+                                            }
+                                              else{
+                                              await deleteld(comId[index]);
+                                            }
+                                            },
                                             child: Icon(
                                               Icons.thumb_down,
                                               size: 20,
-                                              color: Colors.red,
+                                              color: wld[index] == "disliked"?colorld(wld[index]):Colors.grey,
                                             ),
                                           ),
                                           Padding(
                                             padding: EdgeInsets.only(left: 8,right: 5),
                                             child:  Text(
-                                              comment.dislike,
+                                              comDetails.elementAt(index)[1],
                                               style: TextStyle(fontWeight: FontWeight.bold),
 
                                             ),
@@ -430,7 +465,7 @@ class _productPageState extends State<productPage>{
               ),
             ],
           ),
-              onRefresh: _getData
+              onRefresh:_getData
           )
 
       );

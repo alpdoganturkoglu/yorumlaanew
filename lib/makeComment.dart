@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yorumlaa/Controller/createCommentCont.dart';
-import 'package:yorumlaa/main.dart';
+import 'package:yorumlaa/Controller/productContreller.dart';
 
 
 class makeComment extends StatefulWidget{
@@ -60,7 +60,7 @@ class _makeCommentState extends State<makeComment>{
                   if(_formKey.currentState.validate()){
                     var commentbodyto= commentBody.text.trim();
                    var control =await createComment
-                    (commentbodyto,"Genel", "Performans","Kamera", "Ekran", "Batarya", _value.round(), _value2.round(), _value3.round(), _value4.round(), _value5.round(), "iphone-x");
+                    (commentbodyto, rName[0], rName[1], rName[2], rName[3], rName[4],_value.round(), _value2.round(), _value3.round(), _value4.round(), _value5.round(), "iphone-x");
                     if(control == null){
                       Navigator.pop(context);
                     }                
