@@ -160,15 +160,16 @@ class _signInState extends State<signin>{
                         
                         
                         jwt = jwttemp;
-                        
+                        pr.hide();
                       });
-                      pr.hide();
+                      
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> home()));
                       }
                       else{
+                        pr.hide();
                         _scaffoldkey.currentState.showSnackBar(
                           SnackBar(
-                            content: Text(jwttemp,style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.bold),),
+                            content: Text("Şifre Ya da kullanıcı adı hatalı",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.bold),),
                             duration: Duration(seconds: 3),
                             backgroundColor: Color.fromRGBO(32, 191, 85, 1),
                             elevation: 12,

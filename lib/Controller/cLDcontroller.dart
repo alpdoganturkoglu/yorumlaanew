@@ -64,7 +64,7 @@ Future deleteld(String comid) async{
     return null;
   }
   else{
-    debugPrint(deleteresp.statusCode.toString());
+    debugPrint(deleteresp.body.toString());
     return deleteresp.statusCode.toString();
   }
 

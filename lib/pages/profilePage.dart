@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:yorumlaa/Controller/usComShowCont.dart';
 import 'package:yorumlaa/pages/profileEdit.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:yorumlaa/Controller/signInControlle.dart';
+import 'package:yorumlaa/pages/userComments.dart';
 
 
 
@@ -66,21 +68,28 @@ class _profilePageState extends State<profilePage>{
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Container(
-                          color: Colors.blue,
-                          height:MediaQuery.of(context).size.height/10 ,
-                          width:MediaQuery.of(context).size.width/4,
+                        InkWell(
+                          onTap:() async{
+                            debugPrint(userData.elementAt(0).id.toString());
+                            var check = await getUserComment(userData.elementAt(0).id.toString());
+                            if(check == null){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>userComments()));
+                            }
+                          },
+                          child: Container(
+                          
+                          height:MediaQuery.of(context).size.height/9 ,
+                          width:MediaQuery.of(context).size.width/1.5,
+                          decoration: BoxDecoration(
+                            color:Color.fromRGBO(1, 186, 239, 1),
+                            borderRadius: BorderRadius.all(Radius.circular(12)) 
+                            ),
+                            child: Center(
+                              child: Text("Yorumların",style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),),
+                            ),
                         ),
-                        Container(
-                          color: Colors.blue,
-                          height:MediaQuery.of(context).size.height/10 ,
-                          width:MediaQuery.of(context).size.width/4,
-                        ),
-                        Container(
-                          color: Colors.blue,
-                          width:MediaQuery.of(context).size.width/4,
-                          height:MediaQuery.of(context).size.height/10 ,
-                        ),
+                        )
+                        
                       ],
                     ),
                   ),

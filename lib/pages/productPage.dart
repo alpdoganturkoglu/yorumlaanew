@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:yorumlaa/Controller/cLDcontroller.dart';
+import 'package:yorumlaa/Controller/deleteComment.dart';
 import 'package:yorumlaa/Controller/followController.dart';
+import 'package:yorumlaa/Controller/reportController.dart';
 import 'package:yorumlaa/Controller/signInControlle.dart';
 import 'package:yorumlaa/makeComment.dart';
 import 'package:yorumlaa/signin.dart';
@@ -29,8 +31,9 @@ Color ratingcolor(rating){
 }
 
 class _productPageState extends State<productPage>{
+  var _reportFormState = GlobalKey<FormState>();
 
-
+final TextEditingController _reportcontroller = TextEditingController();
   Future<void> _getData() async {
     getProduct(slugtoref);
 
@@ -61,7 +64,7 @@ class _productPageState extends State<productPage>{
       },
       child: Container(
         margin: EdgeInsets.all(10),
-        child: Image.network(images[index],fit: BoxFit.cover,),
+        child: Image.network(images[index],fit: BoxFit.cover,),//productImages[index]
       ),
     );
   }
@@ -72,6 +75,7 @@ class _productPageState extends State<productPage>{
   }
   
   bool isF = false;
+  bool _isenabled;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +139,7 @@ class _productPageState extends State<productPage>{
                             height: 300,
                             child: PageView.builder(
                               controller: pageController,
-                              itemCount: images.length,
+                              itemCount: productImages.length,
                               itemBuilder: (context,position){
                                 return imageSlider(position);
                               },
@@ -234,6 +238,8 @@ class _productPageState extends State<productPage>{
                     shrinkWrap: true,
                     itemCount: commentP.length,
                     itemBuilder: (BuildContext context,int index){
+                
+
                       List<Color>likedC=[];
                       likedC.add(wld[index] == "liked"?colorld(wld[index]):Colors.grey);
                       Color dislikedC=wld[index] == "disliked"?colorld(wld[index]):Colors.grey;
@@ -279,15 +285,28 @@ class _productPageState extends State<productPage>{
                                         Container(
 
                                           child: PopupMenuButton(
-                                              itemBuilder: (BuildContext context) => <PopupMenuEntry<Widget>>[
-                                                    PopupMenuItem<Widget>(
-                                                    child:
-                                                     InkWell(
-                                                       onTap: (){
-                                                         showDialog(context: context,
+                                            onSelected: (result){
+                                              if(result == 0){
+                                                  
+                                                       showDialog(context: context,
                                                         builder:(BuildContext context){
                                                           return AlertDialog(
                                                             title: Text("Şikayet Et"),
+                                                            actions: [
+                                                              FlatButton(onPressed: (){Navigator.pop(context);}, child: Text("Vazgeç",style: TextStyle(color: Colors.red),)),
+                                                              FlatButton(onPressed: (){
+                                                                if(_reportFormState.currentState.validate()){
+                                                                 var check = reportComment(_reportcontroller.text, comId[index]);
+                                                                 if(check == null){
+                                                                   Navigator.pop(context);
+                                                                 }
+                                                                }
+                                                              
+                                                              }, 
+                                                              child:Text("Gönder",style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)
+                                                              ),
+                                                              
+                                                            ],
                                                             content: Column(
                                                               mainAxisSize: MainAxisSize.min,
                                                               children: [
@@ -297,28 +316,76 @@ class _productPageState extends State<productPage>{
                                                                ),
                                                              ),
                                                              Container(
-                                                               child: TextFormField(
-                                                                 
-                                                               ),
+                                                               margin: EdgeInsets.only(top:10),
+                                                               child: Form(
+                                                                 key: _reportFormState,
+                                                                 child:TextFormField(
+                                                                   controller: _reportcontroller,
+                                                                 validator: (value) => value.isEmpty?"Bu alan boş bırakılamaz":null,
+                                                                 maxLines: 5,
+                                                                 decoration: InputDecoration(
+                                                                   errorBorder: OutlineInputBorder(
+                                                                      borderSide: BorderSide(color: Colors.red),
+                                                               borderRadius:
+                                                             BorderRadius.all(Radius.circular(12)),),
+                                                             focusedErrorBorder: OutlineInputBorder(
+                                                                borderSide: BorderSide(color: Colors.red),
+                                                               borderRadius:
+                                                             BorderRadius.all(Radius.circular(12)),
+                                                             ),
+                                                                   enabledBorder:
+                                                           OutlineInputBorder(
+                                                               borderRadius:
+                                                             BorderRadius.all(Radius.circular(12)),
+                                                              borderSide: BorderSide(color: Color.fromRGBO(1, 186, 239, 1))
+                                                            ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                     borderRadius:
+                                                                       BorderRadius.all(Radius.circular(12)),
+                                                                          borderSide: BorderSide(color: Color.fromRGBO(1, 186, 239, 1))
+                                                                       ),
+                                                                 ),
+                                                               ), 
+                                                                 )
                                                              )
-                                                            ],)
+                                                            ],
+                                                          
+                                                            )
                                                             );
                                                         } 
                                                          );
-                                                       },
-                                                       child: Text(
+                                                       
+                                              }
+                                              else if(result == 1){
+
+                                              }
+                                              else if (result == 2){
+                                                deleteComment(slugtoref);
+                                              }
+                                            },
+                                              itemBuilder: (BuildContext context) => [
+                                                
+                                                    PopupMenuItem(
+                                                      value: 0,
+                                                     child :Text(
                                                         "Şikayet Et"
-                                                      ),)
-                                                  ),
-                                                   PopupMenuItem<Widget>(
-                                                    child:
-                                                     Text(
-                                                         userData != null && userData.elementAt(0).id.toString() == commentUser.elementAt(index)[1].toString()? "Şikayet Et":
-                                                         ""
                                                       ),
-                                                  )
-                                                  
-                                              ]
+                                                      ),
+                                                     PopupMenuItem(
+                                                      enabled: userData.isEmpty == false && userData.elementAt(0).id.toString() == commentUser.elementAt(index)[0] ?true:false,
+                                                      value: 1,
+                                                     child :Text(
+                                                        "Düzenle"
+                                                      ),
+                                                      ),
+                                                      PopupMenuItem(
+                                                      enabled: userData.isEmpty == false && userData.elementAt(0).id.toString() == commentUser.elementAt(index)[0] ?true:false,
+                                                      value: 2,
+                                                     child :Text(
+                                                        "Sil"
+                                                      ),
+                                                      )
+                                                    ]
                                           ),
                                         )
                                       ],
@@ -373,15 +440,8 @@ class _productPageState extends State<productPage>{
 
                                             onTap: ()async{
                                               
-                                            if (wld[index] ==null ){
-                                              var check =await commentLike(true, comId[index]);
-                                             if (check == null){
-                                              setState(() {
-                                                likedC == Colors.green;
-                                              });
-                                            }
-                                            }
-                                            else if(wld[index]== "disliked"){
+                                            
+                                            if(wld[index]== "disliked"){
                                               var check= await commentLikePatch(true, comId[index]);
                                               if(check==null){
                                                 return null;
@@ -390,8 +450,16 @@ class _productPageState extends State<productPage>{
                                                 return null;
                                               }
                                             }
-                                            else{
+                                            else if(wld[index]== "liked"){
                                               await deleteld(comId[index]);
+                                            }
+                                            else{
+                                              var check =await commentLike(true, comId[index]);
+                                             if (check == null){
+                                              setState(() {
+                                                likedC == Colors.green;
+                                              });
+                                            }
                                             }
                                             },
                                             child: Icon(
@@ -410,15 +478,8 @@ class _productPageState extends State<productPage>{
                                           ),
                                           InkWell(
                                             onTap: () async{
-                                              if (wld[index] == null){
-                                                var check = await commentLike(false, comId[index]);
-                                                if(check == null){
-                                                  setState(() {
-                                                    dislikedC = Colors.red;
-                                                  });
-                                                }
-                                              }
-                                              else if(wld[index] == "liked"){
+                                             
+                                             if(wld[index] == "liked"){
                                               var check= await commentLikePatch(false, comId[index]);
                                               if(check==null){
                                                 return null;
@@ -427,9 +488,17 @@ class _productPageState extends State<productPage>{
                                                 return null;
                                               }
                                             }
-                                              else{
+                                              else if(wld[index]== "disliked"){
                                               await deleteld(comId[index]);
                                             }
+                                            else{
+                                                var check = await commentLike(false, comId[index]);
+                                                if(check == null){
+                                                  setState(() {
+                                                    dislikedC = Colors.red;
+                                                  });
+                                                }
+                                              }
                                             },
                                             child: Icon(
                                               Icons.thumb_down,

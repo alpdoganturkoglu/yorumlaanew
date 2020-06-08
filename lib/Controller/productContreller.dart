@@ -145,6 +145,7 @@ class productData{
 void imgParse(imageJson){
   for (int i =0 ; i<imageJson.length;i++){
     var img = productImg.fromJson(imageJson[i]);
+    debugPrint(img.toString());
     String lastImg = "https://yorumlaa.herokuapp.com"+img.imgUrl; 
     productImages.add(lastImg);
   }
@@ -154,6 +155,7 @@ List wld=[];
 void commentParse(commentJson){
   for (int i =0 ; i<commentJson.length; i++){
     var com= productComment.fromJson(commentJson[i]);
+   
     wld.add(com.liked);
     var commentL= comdetail.fromJson(com.comment);
     commentP.add(commentL.body);
@@ -169,6 +171,7 @@ void getProductData(Map product,List images,List breadcrumb,data){
   productV=data;
   productD.add(productData(product: product,images: images,breadcrumb: breadcrumb));
 }
+
 bool follow= false; 
 List <String> prdctInf=[];
 String slugtoref;
@@ -180,6 +183,9 @@ Future getProduct(String urlslug) async{
     if(response.statusCode~/100 ==2){
     prdctrating.clear();
     rName.clear();
+     commentUser.clear();
+    comId.clear();
+    comT.clear();
     commentP.clear();
     prdctInf.clear();
     wld.clear();
@@ -187,14 +193,18 @@ Future getProduct(String urlslug) async{
     productImages.clear();
     productD.clear();
     var data = productData.fromJson(jsonDecode(response.body));
+  
     follow = data.following;
-    debugPrint(data.toString());
     var inf =productInf.fromJson(data.product);
+    imgParse(data.images);
     prdctInf.add(inf.title);
     prdctInf.add(inf.id.toString());
+    
     commentParse(data.comments);
     var product_rating= productR.fromJson(data.rating);
     ratingJson(product_rating.part);
+  debugPrint(productImages.toString());
+    
     return  null;
 
   }
@@ -206,25 +216,35 @@ Future getProduct(String urlslug) async{
 
   }
   else{
+    
     var response = await http.get(urls,headers: {"Content-Type": "application/json","Authorization": jwt});
     if(response.statusCode~/100 ==2){
     prdctrating.clear();
+    comDetails.clear();
+    commentUser.clear();
+    comId.clear();
+    comT.clear();
+  
     rName.clear();
     commentP.clear();
     wld.clear();
     prdctInf.clear();
     rating.clear();
     productImages.clear();
+    
     productD.clear();
     var data = productData.fromJson(jsonDecode(response.body));
     follow = data.following;
-    debugPrint(data.toString());
+    
     var inf =productInf.fromJson(data.product);
     prdctInf.add(inf.title);
     prdctInf.add(inf.id.toString());
     commentParse(data.comments);
     var product_rating= productR.fromJson(data.rating);
     ratingJson(product_rating.part);
+    imgParse(data.images);
+     
+      debugPrint(productImages.toString());
     return  null;
 
   }

@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yorumlaa/Controller/categoryController.dart';
-import 'package:yorumlaa/Controller/productContreller.dart';
-import 'package:yorumlaa/Controller/searchbyCatCont.dart';
-import 'package:yorumlaa/makeComment.dart';
-import 'package:yorumlaa/pages/productList.dart';
-import 'package:yorumlaa/pages/productPage.dart';
-import 'file:///C:/Users/turko/AndroidStudioProjects/yorumlaa/lib/pages/followpage.dart';
+import 'package:yorumlaa/Controller/notfController.dart';
+import 'package:yorumlaa/pages/followpage.dart';
 import 'package:yorumlaa/pages/profilePage.dart';
 import 'package:yorumlaa/pages/category.dart';
 import 'package:yorumlaa/pages/mainPage.dart';
-import 'package:yorumlaa/pages/testpage.dart';
 import 'package:yorumlaa/signin.dart';
 import '../floatingButton.dart';
 
@@ -68,7 +63,8 @@ class _homeState extends State<home> {
                     onPressed: () async{
                      
                       await categoryData();
-
+                      await getNotf();
+                      
                         setState(() {
                           currentPage =category();
                           currentTab = 1;
@@ -80,8 +76,9 @@ class _homeState extends State<home> {
                   ),
                   Text(""),
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async{
                       if(jwt != null){
+                        await getNotf();
                         setState(() {
                         currentPage = followPage();
                         currentTab = 2;
@@ -95,7 +92,7 @@ class _homeState extends State<home> {
                   ),
                   IconButton(
                       onPressed: () {
-                      
+                        
                          if(jwt != null){
                            setState(() {
                             currentPage = profilePage();

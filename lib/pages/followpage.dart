@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yorumlaa/Controller/notfController.dart';
 
 
 class followPage extends StatefulWidget{
@@ -22,12 +23,7 @@ class _followPageState extends State<followPage>{
         ),
         centerTitle: true,
         actions: <Widget>[
-          IconButton(
-              icon:Icon(
-                Icons.add,
-                color: Color.fromRGBO(1, 186, 239, 1),
-              )
-          ),
+         
           IconButton(
             icon: Icon(
               Icons.notifications_none,
@@ -37,7 +33,7 @@ class _followPageState extends State<followPage>{
         ],
       ),
 
-      body:  Center(
+      body:  notpro.isEmpty == true? Center(
         child: Text(
           "Hiçbir ürünü takip etmiyorsunuz",
           textAlign: TextAlign.center,
@@ -46,7 +42,23 @@ class _followPageState extends State<followPage>{
               fontWeight: FontWeight.bold,
               fontSize: 30),
         ),
-      ),
+      ):
+      ListView.builder(
+      
+        itemBuilder: (context,index){
+          return Container(
+            child: Card(
+              
+            child: ListTile(
+              title: Text(notpro[index]),
+              subtitle: Text("Bu ürüne "+notcount[index]+" adet yeni yorum yapıldı "),
+            )
+          ),
+          );
+        },
+        itemCount: notpro.length,
+        )
+      ,
     );
   }
 }
