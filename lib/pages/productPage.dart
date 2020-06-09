@@ -11,6 +11,8 @@ import 'package:yorumlaa/makeComment.dart';
 import 'package:yorumlaa/signin.dart';
 import 'package:yorumlaa/Controller/productContreller.dart';
 
+import 'editCommentPage.dart';
+
 
 
 var showPinf= prdctInf[0];
@@ -285,7 +287,7 @@ final TextEditingController _reportcontroller = TextEditingController();
                                         Container(
 
                                           child: PopupMenuButton(
-                                            onSelected: (result){
+                                            onSelected: (result)async{
                                               if(result == 0){
                                                   
                                                        showDialog(context: context,
@@ -356,8 +358,8 @@ final TextEditingController _reportcontroller = TextEditingController();
                                                          );
                                                        
                                               }
-                                              else if(result == 1){
-
+                                              else if(result == 1) {
+                                                editCommentP();
                                               }
                                               else if (result == 2){
                                                 deleteComment(slugtoref);

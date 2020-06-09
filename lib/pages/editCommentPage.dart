@@ -1,24 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yorumlaa/Controller/createCommentCont.dart';
+import 'package:yorumlaa/Controller/editComCont.dart';
 import 'package:yorumlaa/Controller/productContreller.dart';
 
 
-class makeComment extends StatefulWidget{
-  const makeComment({Key key}) : super(key: key);
+class editCommentP extends StatefulWidget{
+  const editCommentP({Key key}) : super(key: key);
   @override
-  State<StatefulWidget> createState() => _makeCommentState();
+  State<StatefulWidget> createState() => _editCommentState();
 }
+ 
 
-class _makeCommentState extends State<makeComment>{
-  var _formKey = GlobalKey<FormState>();
-  double _value=5;
-  double _value2=5;
-  double _value3=5;
-  double _value4=5;
-  double _value5=5;
+  
+
+
+class _editCommentState extends State<editCommentP>{
+ 
+
+ var _formKey = GlobalKey<FormState>();
+  double valueE;
+  double value2E;
+  double value3E;
+  double value4E;
+  double value5E;
   int cPageint= 0;
-  TextEditingController commentBody = TextEditingController();
+  TextEditingController editBody = TextEditingController();
+  _editCommentState({this.valueE,this.value2E,this.value3E,this.value4E,this.value5E,this.editBody});
   PageController mcomment =PageController(initialPage: 0);
   cPage(){
     mcomment.addListener(() {
@@ -58,9 +66,9 @@ class _makeCommentState extends State<makeComment>{
                  backgroundColor: Color.fromRGBO(32, 191, 85, 1),
                  onPressed: ()async{
                   if(_formKey.currentState.validate()){
-                    var commentbodyto= commentBody.text.trim();
-                   var control =await createComment
-                    (commentbodyto, rName[0], rName[1], rName[2], rName[3], rName[4],_value.round(), _value2.round(), _value3.round(), _value4.round(), _value5.round(), slugtoref);
+                    var commentbodyto= editBody.text.trim();
+                   var control =await editComment
+                    (commentbodyto, rName[0], rName[1], rName[2], rName[3], rName[4],valueE.round(), value2E.round(), value3E.round(), value4E.round(), value5E.round(),slugtoref);
                     if(control == null){
                       Navigator.pop(context);
                     }                
@@ -96,7 +104,7 @@ class _makeCommentState extends State<makeComment>{
 
               Text("Genel",style: TextStyle( fontWeight: FontWeight.bold,fontSize: 18
               ),),
-              Text(_value.round().toString(),style: TextStyle(fontWeight: FontWeight.bold),),
+              Text(valueE.round().toString(),style: TextStyle(fontWeight: FontWeight.bold),),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -128,10 +136,10 @@ class _makeCommentState extends State<makeComment>{
                         divisions: 9,
                         min: 1,
                         max: 10,
-                        value: _value,
+                        value: valueE,
                         onChanged: (value){
                           setState(() {
-                            _value=value;
+                            valueE=value;
                           });
                         },
                       ),
@@ -143,7 +151,7 @@ class _makeCommentState extends State<makeComment>{
               Padding(padding: EdgeInsets.only(top: 20),),
               Text("Performans",style: TextStyle( fontWeight: FontWeight.bold,fontSize: 18
               ),),
-              Text(_value2.round().toString(),style: TextStyle(fontWeight: FontWeight.bold),),
+              Text(value2E.round().toString(),style: TextStyle(fontWeight: FontWeight.bold),),
               Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -175,10 +183,10 @@ class _makeCommentState extends State<makeComment>{
                           divisions: 9,
                           min: 1,
                           max: 10,
-                          value: _value2,
+                          value: value2E,
                           onChanged: (value){
                             setState(() {
-                              _value2=value;
+                              value2E=value;
                             });
                           },
                         ),
@@ -190,7 +198,7 @@ class _makeCommentState extends State<makeComment>{
               Padding(padding: EdgeInsets.only(top: 20),),
               Text("Kamera",style: TextStyle( fontWeight: FontWeight.bold,fontSize: 18
               ),),
-              Text(_value3.round().toString(),style: TextStyle(fontWeight: FontWeight.bold),),
+              Text(value3E.round().toString(),style: TextStyle(fontWeight: FontWeight.bold),),
               Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -222,10 +230,10 @@ class _makeCommentState extends State<makeComment>{
                           divisions: 9,
                           min: 1,
                           max: 10,
-                          value: _value3,
+                          value: value3E,
                           onChanged: (value){
                             setState(() {
-                              _value3=value;
+                              value3E=value;
                             });
                           },
                         ),
@@ -237,7 +245,7 @@ class _makeCommentState extends State<makeComment>{
               Padding(padding: EdgeInsets.only(top: 20),),
               Text("Ekran",style: TextStyle( fontWeight: FontWeight.bold,fontSize: 18
               ),),
-              Text(_value4.round().toString(),style: TextStyle(fontWeight: FontWeight.bold),),
+              Text(value4E.round().toString(),style: TextStyle(fontWeight: FontWeight.bold),),
               Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -270,10 +278,10 @@ class _makeCommentState extends State<makeComment>{
                           divisions: 9,
                           min: 1,
                           max: 10,
-                          value: _value4,
+                          value: value4E,
                           onChanged: (value){
                             setState(() {
-                              _value4=value;
+                              value4E=value;
                             });
                           },
                         ),
@@ -285,7 +293,7 @@ class _makeCommentState extends State<makeComment>{
               Padding(padding: EdgeInsets.only(top: 20),),
               Text("Batarya",style: TextStyle( fontWeight: FontWeight.bold,fontSize: 18
               ),),
-              Text(_value5.round().toString(),style: TextStyle(fontWeight: FontWeight.bold),),
+              Text(value5E.round().toString(),style: TextStyle(fontWeight: FontWeight.bold),),
               Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -317,10 +325,10 @@ class _makeCommentState extends State<makeComment>{
                           divisions: 9,
                           min:1,
                           max: 10,
-                          value: _value5,
+                          value: value5E,
                           onChanged: (value){
                             setState(() {
-                              _value5=value;
+                              value5E=value;
                             });
                           },
                         ),
@@ -348,7 +356,7 @@ class _makeCommentState extends State<makeComment>{
                             key: _formKey,
                             child:TextFormField(
                             validator: (value)=> value.isEmpty?" Bu kısım Boş bırakılamaz":null,
-                            controller: commentBody,
+                            controller: editBody,
                             maxLines: 10,
                             maxLength: 300,
                             autofocus: true,
